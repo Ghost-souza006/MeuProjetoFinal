@@ -4,7 +4,7 @@ session_start();
 // Quando acessa index como usuário logado através do botão "Início"
 // o parâmetro ?view=portal permite ver a página inicial em vez de dashboard.
 if (isset($_SESSION['usuario_id']) && (!isset($_GET['view']) || $_GET['view'] !== 'portal')) {
-    header('Location: dashboard.php');
+    header('Location: admin/dashboard.php');
     exit;
 }
 
@@ -37,7 +37,7 @@ $inicialUsuario = $isLogado ? mb_strtoupper(mb_substr($nomeUsuario, 0, 1, 'UTF-8
             <div class="navbar-info">
                 <?php if ($isLogado): ?>
                     <a href="noticias.php" class="btn btn-ghost btn-sm"><i class="fas fa-newspaper"></i> Notícias</a>
-                    <a href="dashboard.php" class="btn btn-ghost btn-sm profile-link"><span
+                    <a href="admin/dashboard.php" class="btn btn-ghost btn-sm profile-link"><span
                             class="profile-badge"><?= $inicialUsuario ?></span> <?= $nomeUsuario ?></a>
                     <a href="logout.php" class="btn btn-ghost btn-sm"><i class="fas fa-sign-out-alt"></i> Sair</a>
                 <?php else: ?>

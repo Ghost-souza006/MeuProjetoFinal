@@ -3,7 +3,7 @@ session_start();
 
 // Se já estiver logado, redireciona para o dashboard
 if (isset($_SESSION['usuario_id'])) {
-    header('Location: dashboard.php');
+    header('Location: admin/dashboard.php');
     exit;
 }
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!in_array($tipo, ['admin', 'reporter', 'leitor'])) {
         $erro = 'Tipo de usuário inválido.';
     } else {
-        require_once 'conexao.php';
+        require_once 'includes/conexao.php';
         
         $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ? AND tipo = ?");
         $stmt->execute([$email, $tipo]);
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['usuario_email'] = $usuario['email'];
             $_SESSION['usuario_tipo'] = $usuario['tipo'];
             
-            header('Location: dashboard.php');
+            header('Location: admin/dashboard.php');
             exit;
         } else {
             $erro = 'E-mail, senha ou tipo de usuário incorretos.';

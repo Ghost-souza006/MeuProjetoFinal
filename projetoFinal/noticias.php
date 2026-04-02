@@ -1,5 +1,5 @@
 <?php
-require_once 'conexao.php';
+require_once 'includes/conexao.php';
 $noticias = $pdo->query('SELECT n.*, u.nome as autor_nome FROM noticias n JOIN usuarios u ON n.autor = u.id ORDER BY n.data DESC')->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -18,7 +18,7 @@ $noticias = $pdo->query('SELECT n.*, u.nome as autor_nome FROM noticias n JOIN u
         <div class="navbar-brand"><img src="imagens/Semfundo.png" alt="Logo" class="navbar-logo"> EcoFinanças</div>
         <div class="navbar-info">
             <a href="index.php?view=portal" class="btn btn-ghost btn-sm"><i class="fas fa-home"></i> Início</a>
-            <a href="dashboard.php" class="btn btn-ghost btn-sm"><i class="fas fa-tachometer-alt"></i> Meu perfil</a>
+            <a href="admin/dashboard.php" class="btn btn-ghost btn-sm"><i class="fas fa-tachometer-alt"></i> Meu perfil</a>
         </div>
     </nav>
 

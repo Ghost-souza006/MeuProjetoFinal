@@ -3,7 +3,7 @@ session_start();
 
 // Se já estiver logado, redireciona para o dashboard
 if (isset($_SESSION['usuario_id'])) {
-    header('Location: dashboard.php');
+    header('Location: admin/dashboard.php');
     exit;
 }
 
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!in_array($tipo, ['leitor', 'reporter'])) {
         $erro = 'Tipo de usuário inválido.';
     } else {
-        require_once 'conexao.php';
+        require_once 'includes/conexao.php';
         
         $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);

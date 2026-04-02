@@ -1,5 +1,5 @@
 <?php
-require_once 'conexao.php';
+require_once 'includes/conexao.php';
 
 $id = $_GET['id'] ?? 0;
 
@@ -31,7 +31,7 @@ if (!$noticia) {
         <div class="navbar-info">
             <a href="index.php?view=portal" class="btn btn-ghost btn-sm"><i class="fas fa-home"></i> Início</a>
             <a href="noticias.php" class="btn btn-ghost btn-sm"><i class="fas fa-newspaper"></i> Todas as Notícias</a>
-            <a href="dashboard.php" class="btn btn-ghost btn-sm"><i class="fas fa-tachometer-alt"></i>Meu perfil </a>
+            <a href="admin/dashboard.php" class="btn btn-ghost btn-sm"><i class="fas fa-tachometer-alt"></i>Meu perfil </a>
         </div>
     </nav>
 
