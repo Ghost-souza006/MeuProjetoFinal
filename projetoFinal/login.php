@@ -51,14 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <div class="cadastro-container">
         <div class="cadastro-card">
             <div class="cadastro-header">
                 <div style="text-align: center; margin-bottom: 25px;">
-                    <img src="imagens/Semfundo.png" alt="Logo" class="login-logo">
+                    <img src="imagens/logo-ecofinancas.png" alt="Logo" style="width: 100px; height: 100px; object-fit: contain;">
                 </div>
                 <h1>Bem-vindo de volta!</h1>
                 <p>Faça login para acessar sua conta</p>

@@ -50,8 +50,17 @@ CREATE TABLE `usuarios` (
   `email` varchar(100) NOT NULL,
   `senha` varchar(255) NOT NULL,
   `tipo` enum('admin','reporter','leitor') NOT NULL DEFAULT 'leitor',
+  `telefone` varchar(20) DEFAULT NULL,
+  `cpf` varchar(14) DEFAULT NULL,
+  `bio` text DEFAULT NULL,
+  `especialidade` varchar(100) DEFAULT NULL,
+  `foto_perfil` varchar(255) DEFAULT NULL,
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dados iniciais - Admin padrão (senha: admin123)
+INSERT INTO `usuarios` (`nome`, `email`, `senha`, `tipo`) VALUES 
+('Administrador', 'admin@ecofinancas.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
 
 --
 -- Índices para tabelas despejadas

@@ -11,11 +11,11 @@ $noticias = $pdo->query('SELECT n.*, u.nome as autor_nome FROM noticias n JOIN u
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-brand"><img src="imagens/Semfundo.png" alt="Logo" class="navbar-logo"> EcoFinanças</div>
+        <div class="navbar-brand"><img src="imagens/logo-ecofinancas.png" alt="Logo" style="height: 45px; margin-right: 0.5rem;"> EcoFinanças</div>
         <div class="navbar-info">
             <a href="index.php?view=portal" class="btn btn-ghost btn-sm"><i class="fas fa-home"></i> Início</a>
             <a href="admin/dashboard.php" class="btn btn-ghost btn-sm"><i class="fas fa-tachometer-alt"></i> Meu perfil</a>

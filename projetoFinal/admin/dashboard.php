@@ -12,6 +12,14 @@ require_once '../includes/conexao.php';
 $mensagem = '';
 $tipo_mensagem = '';
 
+// Verificar mensagens da sessão
+if (isset($_SESSION['mensagem'])) {
+    $mensagem = $_SESSION['mensagem'];
+    $tipo_mensagem = $_SESSION['tipo_mensagem'];
+    unset($_SESSION['mensagem']);
+    unset($_SESSION['tipo_mensagem']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['acao'] === 'adicionar') {
     $titulo = trim($_POST['titulo'] ?? '');
     $conteudo = trim($_POST['noticia'] ?? '');
@@ -36,9 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
 
 
 
-// Buscar apenas notícias do usuário logado para o dashboard
-$stmt = $pdo->prepare('SELECT n.*, u.nome as autor_nome FROM noticias n INNER JOIN usuarios u ON n.autor = u.id WHERE n.autor = ? ORDER BY n.data DESC');
-$stmt->execute([$_SESSION['usuario_id']]);
+// Buscar notícias conforme o tipo de usuário
+if ($_SESSION['usuario_tipo'] === 'admin') {
+    // Admin vê todas as notícias
+    $stmt = $pdo->prepare('SELECT n.*, u.nome as autor_nome FROM noticias n INNER JOIN usuarios u ON n.autor = u.id ORDER BY n.data DESC');
+    $stmt->execute();
+} else {
+    // Reporter vê apenas suas notícias
+    $stmt = $pdo->prepare('SELECT n.*, u.nome as autor_nome FROM noticias n INNER JOIN usuarios u ON n.autor = u.id WHERE n.autor = ? ORDER BY n.data DESC');
+    $stmt->execute([$_SESSION['usuario_id']]);
+}
 $noticias = $stmt->fetchAll();
 
 $total_noticias_usuario = count($noticias);
@@ -54,11 +69,11 @@ $total_usuarios = $pdo->query('SELECT COUNT(*) as total FROM usuarios')->fetch()
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-brand"><img src="../imagens/Semfundo.png" alt="Logo" class="navbar-logo"> EcoFinanças</div>
+        <div class="navbar-brand"><img src="../imagens/logo-ecofinancas.png" alt="Logo" style="height: 45px; margin-right: 0.5rem;"> EcoFinanças</div>
         <div class="navbar-info">
             <a href="../index.php?view=portal" class="btn btn-ghost btn-sm"><i class="fas fa-home"></i> Início</a>
             <span class="usuario-nome"><i class="fas fa-user-circle"></i> <?= htmlspecialchars($_SESSION['usuario_nome']) ?></span>
@@ -75,7 +90,11 @@ $total_usuarios = $pdo->query('SELECT COUNT(*) as total FROM usuarios')->fetch()
                     <p>Bem-vindo de volta, <?= htmlspecialchars($_SESSION['usuario_nome']) ?>! Seu tipo: <strong><?= ucfirst($_SESSION['usuario_tipo'] ?? 'leitor') ?></strong></p>
                 </div>
                 <div class="welcome-actions">
-                    <?php if ($_SESSION['usuario_tipo'] === 'reporter'): ?>
+                    <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+                        <!-- Botões exclusivos para Admin -->
+                        <a href="gerenciar_usuarios.php" class="btn btn-primary"><i class="fas fa-users-cog"></i> Gerenciar Usuários</a>
+                        <a href="gerenciar_noticias.php" class="btn btn-secondary"><i class="fas fa-newspaper"></i> Todas as Notícias</a>
+                    <?php elseif ($_SESSION['usuario_tipo'] === 'reporter'): ?>
                         <a href="nova_noticia.php" class="btn btn-primary"><i class="fas fa-plus"></i> Nova Notícia</a>
                     <?php endif; ?>
                 </div>
@@ -137,8 +156,8 @@ $total_usuarios = $pdo->query('SELECT COUNT(*) as total FROM usuarios')->fetch()
             </div>
         </div>
 
-        <!-- Lista de Minhas Notícias (apenas para reporters) -->
-        <?php if ($_SESSION['usuario_tipo'] === 'reporter'): ?>
+        <!-- Lista de Minhas Notícias (para reporter e admin) -->
+        <?php if ($_SESSION['usuario_tipo'] === 'reporter' || $_SESSION['usuario_tipo'] === 'admin'): ?>
         <div class="dashboard-card">
             <div class="card-header">
                 <h2><i class="fas fa-list"></i> Minhas Publicações</h2>
@@ -169,11 +188,16 @@ $total_usuarios = $pdo->query('SELECT COUNT(*) as total FROM usuarios')->fetch()
                                     </div>
                                     <p class="noticia-texto"><?= nl2br(htmlspecialchars(mb_strimwidth($noticia['noticia'], 0, 150, '...'))) ?></p>
                                     <div class="noticia-footer">
+                                        <a href="../noticia.php?id=<?= $noticia['id'] ?>" class="btn btn-ghost btn-sm" target="_blank">
+                                            <i class="fas fa-eye"></i> Ver
+                                        </a>
+                                        <a href="editar_noticia.php?id=<?= $noticia['id'] ?>" class="btn btn-ghost btn-sm">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
                                         <form method="POST" action="excluir_noticia.php" class="inline-form" onsubmit="return confirm('Tem certeza que deseja excluir esta notícia?')">
                                             <input type="hidden" name="id" value="<?= $noticia['id'] ?>">
                                             <button type="submit" class="btn btn-ghost btn-sm text-error"><i class="fas fa-trash"></i> Excluir</button>
                                         </form>
-                                        <a href="editar_noticia.php?id=<?= $noticia['id'] ?>" class="btn btn-ghost btn-sm"><i class="fas fa-edit"></i> Editar</a>
                                     </div>
                                 </div>
                             </div>

@@ -23,7 +23,7 @@ $inicialUsuario = $isLogado ? mb_strtoupper(mb_substr($nomeUsuario, 0, 1, 'UTF-8
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
@@ -31,7 +31,7 @@ $inicialUsuario = $isLogado ? mb_strtoupper(mb_substr($nomeUsuario, 0, 1, 'UTF-8
     <header class="hero-header">
         <nav class="navbar">
             <div class="navbar-brand">
-                <img src="imagens/Semfundo.png" alt="Logo" class="navbar-logo">
+                <img src="imagens/logo-ecofinancas.png" alt="Logo" style="height: 45px; margin-right: 0.5rem;">
                 <span>EcoFinanças</span>
             </div>
             <div class="navbar-info">
@@ -137,7 +137,7 @@ $inicialUsuario = $isLogado ? mb_strtoupper(mb_substr($nomeUsuario, 0, 1, 'UTF-8
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="imagens/Semfundo.png" alt="Logo" class="navbar-logo">
+                    <img src="imagens/logo-ecofinancas.png" alt="Logo" style="height: 35px; margin-right: 0.5rem;">
                     <span>EcoFinanças</span>
                 </div>
                 <div class="footer-links">
